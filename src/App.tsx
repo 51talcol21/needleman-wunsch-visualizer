@@ -38,38 +38,45 @@ function App() {
 
     return (
     <>
-        <InputComponent onSubmit={handleSequenceData} />
-        <div className="grid grid-cols-[max-content_auto] gap-x-2 gap-y-1">
-            <span className="font-semibold">Input Sequence One:</span>
-            <span>{sequenceData.sequenceOne}</span>
+        <div className="grid grid-cols-2 gap-8 w-full my-6">
+            <div className="flex flex-col pt-2">
+                <InputComponent onSubmit={handleSequenceData} />
+                <div className="grid grid-cols-[max-content_auto] gap-x-2 gap-y-1 mt-auto text-start">
+                    <span className="font-semibold">Input Sequence One:</span>
+                    <span className="justify-self-end">{sequenceData.sequenceOne}</span>
 
-            <span className="font-semibold">Input Sequence Two:</span>
-            <span>{sequenceData.sequenceTwo}</span>
+                    <span className="font-semibold">Input Sequence Two:</span>
+                    <span className="justify-self-end">{sequenceData.sequenceTwo}</span>
 
-            <span className="font-semibold">Score:</span>
-            <span>{scoringData.score}</span>
-        </div>
-        <div className="flex flex-row gap-4 flex-wrap">
-        {scoringData.alignedSequences.map(([seqA, seqB], index) => (
-            <div
-                key={index}
-                className="p-2 bg-blue-800 rounded-md text-white font-mono my-2"
-            >
-                <div className="flex gap-1 mb-1">
-                    {seqA.split('').map((char, i) => (
-                        <span key={i} className="min-w-[1ch] text-center">{char}</span>
-                    ))}
-                </div>
-                <div className="flex gap-1">
-                    {seqB.split('').map((char, i) => (
-                        <span key={i} className="min-w-[1ch] text-center">{char}</span>
-                    ))}
+                    <span className="font-semibold">Score:</span>
+                    <span className="justify-self-end-safe">{scoringData.score}</span>
                 </div>
             </div>
-            ))}
+            <div className="flex flex-row gap-2 flex-wrap overflow-y-scroll max-h-96">
+                {scoringData.alignedSequences.map(([seqA, seqB], index) => (
+                    <div
+                        key={index}
+                        className="p-2 bg-blue-800 rounded-md text-white font-mono my-2 h-min"
+                    >
+                        <div className="flex gap-1 mb-1">
+                            {seqA.split('').map((char, i) => (
+                                <span key={i} className="min-w-[1ch] text-center">{char}</span>
+                            ))}
+                        </div>
+                        <div className="flex gap-1">
+                            {seqB.split('').map((char, i) => (
+                                <span key={i} className="min-w-[1ch] text-center">{char}</span>
+                            ))}
+                        </div>
+                    </div>
+                    ))}
+            </div>
         </div>
-        <MatrixDisplay matrix={scoringData.scoreMatrix} rowLabels={['', ...sequenceData.sequenceOne.split('')]} colLabels={['', ...sequenceData.sequenceTwo.split('')]}/>
-        <MatrixDisplay matrix={scoringData.directionMatrix} rowLabels={['', ...sequenceData.sequenceOne.split('')]} colLabels={['', ...sequenceData.sequenceTwo.split('')]}/>
+        <MatrixDisplay matrix={scoringData.scoreMatrix} 
+            directionsMatrix={scoringData.directionMatrix}
+            scoreMatrix={scoringData.scoreMatrix}
+            rowLabels={['', ...sequenceData.sequenceOne.split('')]}
+            colLabels={['', ...sequenceData.sequenceTwo.split('')]}/>
     </>
     )
 }

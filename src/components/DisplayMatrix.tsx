@@ -1,12 +1,23 @@
+import { useState } from "react";
+
 type MatrixDisplayProps = {
     matrix: string[][];
+    directionsMatrix: string[][];
+    scoreMatrix: number[][];
     rowLabels?: string[];
     colLabels?: string[];
 };
 
-export default function MatrixDisplay({ matrix, rowLabels = [], colLabels = [] }: MatrixDisplayProps) {
+interface Point {
+    x: number,
+    y: number,
+}
+
+export default function MatrixDisplay({ matrix, directionsMatrix, scoreMatrix, rowLabels = [], colLabels = [] }: MatrixDisplayProps) {
+    const [hoveredCell, setHoveredCell] = useState<Point | null>(null);
+
     return (
-        <table className="border-collapse">
+        <table className="border-collapse table-fixed w-full">
         <thead>
             <tr>
                 <th></th>
@@ -18,12 +29,48 @@ export default function MatrixDisplay({ matrix, rowLabels = [], colLabels = [] }
             <tbody>
                 {matrix.map((row, i) => (
                 <tr key={i}>
-                    <th className={labelClasses}>{rowLabels[i] || ''}</th>
-                        { row.map((cell, j) => (
-                    <td key={j} className={cellClasses}>
-                        {Array.isArray(cell) ? (cell.join(', ')) : cell}
-                    </td>
-                    ))}
+                    <th className={labelClasses}>
+                        {rowLabels[i] || ''}
+                    </th>
+                    { row.map((_cell, j) => {
+                        const isCurrent = hoveredCell?.x === i && hoveredCell?.y === j;
+                        const hoveredValue = hoveredCell ? directionsMatrix[hoveredCell.x]?.[hoveredCell.y] : null;
+                        const shouldHighlightDiagonal = hoveredValue?.includes('Diagonal') && (hoveredCell!.x - 1 === i) && (hoveredCell!.y - 1 === j);
+                        const shouldHighlightUp = hoveredValue?.includes('Up') && (hoveredCell!.x - 1 === i) && (hoveredCell!.y === j);
+                        const shouldHighlightLeft = hoveredValue?.includes('Left') && (hoveredCell!.x === i) && (hoveredCell!.y - 1 === j);
+
+                        const isHovered = hoveredCell &&
+                        (
+                          (hoveredCell.x === i && hoveredCell.y === j) ||
+                          (hoveredCell.x - 1 === i && hoveredCell.y === j) ||
+                          (hoveredCell.x === i && hoveredCell.y - 1 === j) ||
+                          (hoveredCell.x - 1 === i && hoveredCell.y - 1 === j)
+                        );
+
+                        return (
+                            <td key={j} 
+                                className={
+                                    `${isCurrent ? 'bg-yellow-800 text-violet-50 border-2 border-cyan-700' : ''}` +
+                                    `${shouldHighlightDiagonal ? 'bg-fuchsia-700 font-bold' : ''}` +
+                                    `${shouldHighlightUp ? 'bg-fuchsia-700 font-bold' : ''}` +
+                                    `${shouldHighlightLeft ? 'bg-fuchsia-700 font-bold' : ''}` +
+                                    `${isHovered ? 'bg-stone-600 text-violet-50 border-2 border-cyan-700' : ''}` +
+                                    cellClasses}
+                                onMouseEnter={() => {
+                                    setHoveredCell({ x: i, y: j })
+                                }}
+                                onMouseLeave={() => setHoveredCell(null)}>
+                                <span className="text-blue-300"> {Array.isArray(directionsMatrix[i][j]) ? (directionsMatrix[i][j].join(', ')) : ''} </span> <br />
+                                <span>
+                                    {directionsMatrix[i][j]?.includes('Left') ? '←' : ''}
+                                    {directionsMatrix[i][j]?.includes('Diagonal') ? '↖' : ''}
+                                    {directionsMatrix[i][j]?.includes('Up') ? '↑' : ''}
+                                </span> <br />
+                                {scoreMatrix[i][j]}
+                            </td>
+                        )
+                    }
+                    )}
                 </tr>
                 ))}
             </tbody>

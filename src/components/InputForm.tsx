@@ -43,9 +43,10 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                 name="sequenceOne"
                 placeholder="First Sequence"
                 value={inputs.sequenceOne}
+                className="bg-stone-700 rounded-md px-2 py-1"
                 onChange={handleChange} />
         </div>
-        <div className="self-start flex justify-between w-full">
+        <div className="self-start flex justify-between w-full mt-1">
             <label htmlFor="sequenceTwo">
                 Second Sequence: 
             </label>
@@ -53,6 +54,7 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                 name="sequenceTwo"
                 placeholder="Second Sequence"
                 value={inputs.sequenceTwo}
+                className="bg-stone-700 rounded-md px-2 py-1"
                 onChange={handleChange} />
         </div>
         <div className="flex flex-row w-full justify-between mt-4">
@@ -65,6 +67,7 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                     type="number"
                     placeholder="Match Score"
                     value={inputs.matchScore}
+                    className="bg-stone-700 rounded-md px-2 py-1"
                     onChange={handleChange} />
             </div>
             <div className="flex flex-col items-start">
@@ -76,6 +79,7 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                     type="number"
                     placeholder="Mismatch Score"
                     value={inputs.mismatchScore}
+                    className="bg-stone-700 rounded-md px-2 py-1"
                     onChange={handleChange} />
             </div>
             <div className="flex flex-col items-start">
@@ -87,6 +91,7 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                     type="number"
                     placeholder="Gap Score"
                     value={inputs.gapScore}
+                    className="bg-stone-700 rounded-md px-2 py-1"
                     onChange={handleChange} />
             </div>
         </div>
