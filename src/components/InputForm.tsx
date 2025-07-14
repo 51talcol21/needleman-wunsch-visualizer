@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 function InputComponent({ onSubmit }) {
     const [inputs, setInputs] = useState({
-        sequenceOne: '',
-        sequenceTwo: '',
+        sequenceOne: 'GCATGCG',
+        sequenceTwo: 'GATTACA',
         matchScore: 1,
         mismatchScore: -1,
         gapScore: -1
@@ -11,8 +11,10 @@ function InputComponent({ onSubmit }) {
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputs((prev) => ({ ...prev, [name]: value }));
+        const { name, value, type } = e.target;
+        setInputs((prev) => ({ 
+            ...prev, 
+            [name]: type === 'number' ? Number(value) : value }));
     };
 
     const handleSubmit = () => {
@@ -20,7 +22,7 @@ function InputComponent({ onSubmit }) {
     };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center max-w-3xl">
         <div className="self-start flex justify-between w-full">
             <label htmlFor="sequenceOne">
                 First Sequence: 
@@ -41,7 +43,7 @@ function InputComponent({ onSubmit }) {
                 value={inputs.sequenceTwo}
                 onChange={handleChange} />
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row w-full justify-between mt-4">
             <div className="flex flex-col items-start">
                 <label htmlFor="sequenceTwo">
                     Match Score
@@ -76,7 +78,7 @@ function InputComponent({ onSubmit }) {
                     onChange={handleChange} />
             </div>
         </div>
-        <button onClick={handleSubmit}>Calculate Score</button>
+        <button className="mt-4" onClick={handleSubmit}>Calculate Score</button>
     </div>
     );
 }

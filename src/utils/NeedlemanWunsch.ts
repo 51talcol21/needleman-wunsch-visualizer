@@ -1,5 +1,7 @@
 interface NeedlemanResult {
     score: number;
+    scoreMatrix: Array<Array<number>>;
+    directionMatrix: Array<Array<string | string[]>>;
     alignedSequences: [string, string][];
 }
 
@@ -19,20 +21,20 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
             Array(y + 1).fill(0)
         );
 
-        const textMatrix: Array<Array<string | string[]>> = Array(x + 1).fill(null).map(() => 
+        const directionMatrix: Array<Array<string | string[]>> = Array(x + 1).fill(null).map(() => 
             Array(y + 1).fill(null)
         );
 
         for (let i = 0; i <= x; i++) {
             scoreMatrix[i][0] = i * gapScore;
-            textMatrix[i][0] = 'Up';
+            directionMatrix[i][0] = 'Up';
         }
         for (let j = 0; j <= y; j++) {
             scoreMatrix[0][j] = j * gapScore;
-            textMatrix[0][j] = 'Left';
+            directionMatrix[0][j] = 'Left';
         }
 
-        textMatrix[0][0] = "Done";
+        directionMatrix[0][0] = "Done";
 
         // Skip first col/row since already calculated.
         for(let i = 1; i <= x; i++) {
@@ -65,7 +67,7 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
                     .map(([, dir]) => dir);
 
                 scoreMatrix[i][j] = Math.max(diagonalScore, upScore, leftScore);
-                textMatrix[i][j] = directions;
+                directionMatrix[i][j] = directions;
             }
         }
 
@@ -92,7 +94,7 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
                 continue;
              }
 
-            const directions = textMatrix[i]?.[j] || [];
+            const directions = directionMatrix[i]?.[j] || [];
 
             for (const eachDirection of directions) {
                 if (eachDirection === "Diagonal") {
@@ -123,7 +125,9 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
         }
 
     return {
-        score: scoreMatrix[0][0],
+        score: scoreMatrix[x][y],
+        scoreMatrix,
+        directionMatrix,
         alignedSequences: [...new Set(finalAlignments)],
     }
 }
