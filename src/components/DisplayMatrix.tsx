@@ -17,7 +17,8 @@ export default function MatrixDisplay({ matrix, directionsMatrix, scoreMatrix, r
     const [hoveredCell, setHoveredCell] = useState<Point | null>(null);
 
     return (
-        <table className="border-collapse table-fixed w-full">
+        <div className="w-full overflow-x-auto">
+            <table className="border-collapse w-max table-fixed">
         <thead>
             <tr>
                 <th></th>
@@ -75,6 +76,7 @@ export default function MatrixDisplay({ matrix, directionsMatrix, scoreMatrix, r
                 ))}
             </tbody>
         </table>
+        </div>
     );
 }
 

@@ -131,5 +131,3 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
         alignedSequences: [...new Set(finalAlignments)],
     }
 }
-
-module.exports = needlemanWunsch;
