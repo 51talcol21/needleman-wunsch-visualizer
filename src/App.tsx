@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import InputComponent from './components/InputForm';
 import needlemanWunsch from './utils/NeedlemanWunsch';
@@ -34,7 +32,7 @@ function App() {
         console.log(result, sequenceData);
     }, [sequenceData]);
 
-    function handleSequenceData(sequences) {
+    function handleSequenceData(sequences: {sequenceOne: string, sequenceTwo: string, matchScore: number, mismatchScore: number, gapScore: number}) {
         setSequenceData({...sequences});
     }
 

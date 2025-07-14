@@ -86,7 +86,7 @@ export default function needlemanWunsch(sequenceOne: string, sequenceTwo: string
 
         while (sequenceStack.length > 0) {
             //console.log(sequenceStack);
-            const { i, j, alignedSequenceOne, alignedSequenceTwo} = sequenceStack.pop();
+            const { i, j, alignedSequenceOne, alignedSequenceTwo} = sequenceStack.pop()!;
 
             // Base Case, we're at the beginning [0,0]
             if (i === 0 && j === 0) { 

@@ -1,6 +1,18 @@
 import { useState } from 'react';
 
-function InputComponent({ onSubmit }) {
+type InputsType = {
+    sequenceOne: string;
+    sequenceTwo: string;
+    matchScore: number;
+    mismatchScore: number;
+    gapScore: number;
+  };
+
+type InputComponentProps = {
+    onSubmit: (inputs: InputsType) => void;
+};
+
+function InputComponent({ onSubmit }: InputComponentProps) {
     const [inputs, setInputs] = useState({
         sequenceOne: 'GCATGCG',
         sequenceTwo: 'GATTACA',
@@ -10,7 +22,7 @@ function InputComponent({ onSubmit }) {
 
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: { target: { name: any; value: any; type: any; }; }) => {
         const { name, value, type } = e.target;
         setInputs((prev) => ({ 
             ...prev, 
