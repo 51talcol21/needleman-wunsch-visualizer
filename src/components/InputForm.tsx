@@ -95,7 +95,7 @@ function InputComponent({ onSubmit }: InputComponentProps) {
                     onChange={handleChange} />
             </div>
         </div>
-        <button className="mt-4" onClick={handleSubmit}>Calculate Score</button>
+        <button className="mt-4 bg-stone-600 outline-2 outline-blue-50" onClick={handleSubmit}>Calculate Score</button>
     </div>
     );
 }
